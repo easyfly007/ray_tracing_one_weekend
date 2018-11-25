@@ -1,3 +1,6 @@
+#ifndef __VEC3__
+#define __VEC3__
+
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
@@ -113,3 +116,5 @@ inline Vec3 corss (const Vec3 &v1, const Vec3 &v2){
             (-(v1.e[0] * v2.e[2] - v1.e[2] * v2.e[0])),
             (v1.e[0] * v2.e[1] - v1.e[1] * v2.e[0]));
 }
+
+#endif
