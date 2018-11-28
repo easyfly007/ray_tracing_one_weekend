@@ -76,12 +76,14 @@ class Vec3{
             e[2] /= t;
             return *this;
         }
-        inline Vec3 unit_vector(const Vec3& v){
-            float length = v.length();
-            return Vec3(v.e[0] / length, v.e[1] / length, v.e[2]/length);
-        }
         float e[3];
 };
+
+inline Vec3 unit_vector(const Vec3& v){
+    float length = v.length();
+    return Vec3(v.e[0] / length, v.e[1] / length, v.e[2]/length);
+}
+
 inline std::istream & operator>> (std::istream &is, Vec3 &t){
     is >> t.e[0] >> t.e[1] >> t.e[2];
     return is;

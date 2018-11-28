@@ -15,10 +15,10 @@ bool hit_sphere(const Vec3 &center, float radius, const Ray &r)
 
 Vec3 color(const Ray & r)
 {
-	if (hit_sphere(Vec3(0,0,-1), r))
-		return Vec3(1,0,0)
+	if (hit_sphere(Vec3(0,0,-1), 0.5, r))
+		return Vec3(1,0,0);
 	
-	Vec3 unit_direction = unit_vector(r.unit_direction());
+	Vec3 unit_direction = unit_vector(r.direction());
 	float t = 0.5 * (unit_direction.y() + 1.0);
 	return (1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 1.0);
 }
@@ -39,7 +39,8 @@ int main()
 		{
 			float u = float(i) / float(nx);
 			float v = float(j) / float(ny);
-			Ray r(origin, lower_left_corner + u * horizontal + v * vertical);
+                        Vec3 direction(lower_left_corner + u * horizontal + v* vertical);
+			Ray r(origin, direction);
 			Vec3 col = color(r);
 			int ir = int(255.99 * col[0]);
 			int ig = int(255.99 * col[1]);
