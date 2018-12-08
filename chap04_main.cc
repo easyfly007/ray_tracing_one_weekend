@@ -27,7 +27,7 @@ int main()
 {
 	int nx = 200;
 	int ny = 100;
-	cout << " P3\n" << nx << " " << ny << "\n255\n";
+	cout << "P3\n" << nx << " " << ny << "\n255\n";
 	Vec3 lower_left_corner(-2.0, -1.0, -1.0);
 	Vec3 horizontal(4.0, 2.0, 0.0);
 	Vec3 vertical(0.0, 2.0, 0.0);
@@ -39,7 +39,7 @@ int main()
 		{
 			float u = float(i) / float(nx);
 			float v = float(j) / float(ny);
-                        Vec3 direction(lower_left_corner + u * horizontal + v* vertical);
+            Vec3 direction(lower_left_corner + u * horizontal + v* vertical);
 			Ray r(origin, direction);
 			Vec3 col = color(r);
 			int ir = int(255.99 * col[0]);
