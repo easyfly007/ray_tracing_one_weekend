@@ -5,7 +5,7 @@ using namespace std;
 
 Vec3 color(const Ray & r)
 {
-	Vec3 unit_direction = unit_vector(r.unit_direction());
+	Vec3 unit_direction = unit_vector(r.direction());
 	float t = 0.5 * (unit_direction.y() + 1.0);
 	return (1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 1.0);
 }
