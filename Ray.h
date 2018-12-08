@@ -5,7 +5,7 @@
 class Ray
 {
 public:
-	Ray(Vec3 & va, Vec3 & vb){
+	Ray(const Vec3 & va, const Vec3 & vb){
             A = va;
             B = vb;
         }
