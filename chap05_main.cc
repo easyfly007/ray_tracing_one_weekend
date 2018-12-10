@@ -1,38 +1,28 @@
 #include <iostream>
-#include "Ray.h"
+#include "Sphere.h"
+#include "Hitablelist.h"
+#include "float.h"
 
 using namespace std;
 
-float hit_sphere(const Vec3 &center, float radius, const Ray &r)
+
+
+Vec3 color(const Ray & r, Hitable *world)
 {
-	Vec3 oc = r.origin() - center;
-	float a = dot(r.direction(), r.direction());
-	float b = 2.0 * dot(oc, r.direction());
-	float c = dot(oc, oc) - radius * radius;
-	float discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
+	hit_record rec;
+
+	if (world->hit(r, 0.0, MAXFLOAT, rec))
 	{
-		return -1.0;
+		return 0.5 * Vec3(rec.normal.x() + 1, rec.normal.y() + 1, rec.normal.z() + 1);
 	}
 	else
 	{
-		return (-b - sqrt(discriminant))/ (2.0 * a);
+		Vec3 unit_direction = unit_vector(r.direction());
+		float t = 0.5 * (unit_direction.y() + 1.0);
+		return (1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 0.0);
 	}
 }
 
-Vec3 color(const Ray & r)
-{
-	float t = hit_sphere(Vec3(0,0,-1), 0.5, r);
-	if (t > 0.0)
-	{
-		Vec3 N = unit_vector(r.point_at_parameter(t) - Vec3(0, 0, -1));
-		return 0.5 * Vec3(N.x() + 1, N.y() +1, N.z() + 1);
-	}
-
-	Vec3 unit_direction = unit_vector(r.direction());
-	t = 0.5 * (unit_direction.y() + 1.0);
-	return (1.0 - t) * Vec3(1.0, 1.0, 1.0) + t * Vec3(0.5, 0.7, 1.0);
-}	
 
 int main()
 {
@@ -43,6 +33,10 @@ int main()
 	Vec3 horizontal(4.0, 0.0, 0.0);
 	Vec3 vertical(0.0, 2.0, 0.0);
 	Vec3 origin(0.0, 0.0, 0.0);
+	Hitable *list[2];
+	list[0] = new Sphere(Vec3(0,0,-1), 0.5);
+	list[1] = new Sphere(Vec3(0, -100.5, -1), 100);
+	Hitable *world = new Hitablelist(list, 2);
 
 	for (int j = ny -1; j >= 0; j--)
 	{
@@ -50,14 +44,14 @@ int main()
 		{
 			float u = float(i) / float(nx);
 			float v = float(j) / float(ny);
-            Vec3 direction(lower_left_corner + u * horizontal + v* vertical);
-			Ray r(origin, direction);
-			Vec3 col = color(r);
+			Ray r(origin, lower_left_corner + u * horizontal + v * vertical);
+			Vec3 p = r.point_at_parameter(2.0);
+			Vec3 col = color(r, world);
 			int ir = int(255.99 * col[0]);
 			int ig = int(255.99 * col[1]);
 			int ib = int(255.99 * col[2]);
 
-			cout << ir << " " << ig << " " << ib << "\n";
+			std::cout << ir << " " << ig << " " << ib <<"\n";
 		}
 	}
 	return 0;
