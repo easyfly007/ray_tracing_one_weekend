@@ -1,7 +1,10 @@
 #include <iostream>
+#include <stdlib.h>
+
 #include "Sphere.h"
 #include "Hitable_list.h"
 #include "float.h"
+#include "Camera.h"
 
 using namespace std;
 
@@ -26,6 +29,7 @@ int main()
 {
 	int nx = 200;
 	int ny = 100;
+	int ns = 100;
 	cout << "P3\n" << nx << " " << ny << "\n255\n";
 	Vec3 lower_left_corner(-2.0, -1.0, -1.0);
 	Vec3 horizontal(4.0, 0.0, 0.0);
@@ -35,16 +39,20 @@ int main()
 	list[0] = new Sphere(Vec3(0,0,-1), 0.5);
 	list[1] = new Sphere(Vec3(0, -100.5, -1), 100);
 	Hitable *world = new Hitable_list(list, 2);
-
+	Camera cam;
 	for (int j = ny -1; j >= 0; j--)
 	{
 		for (int i = 0; i < nx; i ++)
 		{
-			float u = float(i) / float(nx);
-			float v = float(j) / float(ny);
-			Ray r(origin, lower_left_corner + u * horizontal + v * vertical);
-			Vec3 p = r.point_at_parameter(2.0);
-			Vec3 col = color(r, world);
+			Vec3 col(0, 0, 0);
+			for (int s = 0; s < ns; s ++){
+				float u = float(i + drand48()) / float(nx);
+				float v = float(j + drand48()) / float(ny);
+				Ray r = cam.get_ray(u, v);
+				Vec3 p = r.point_at_parameter(2.0);
+				col += color(r, world);				
+			}
+			col /= float(ns);
 			int ir = int(255.99 * col[0]);
 			int ig = int(255.99 * col[1]);
 			int ib = int(255.99 * col[2]);
