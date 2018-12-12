@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Sphere.h"
-#include "Hitablelist.h"
+#include "Hitable_list.h"
 #include "float.h"
 
 using namespace std;
@@ -34,7 +34,7 @@ int main()
 	Hitable *list[2];
 	list[0] = new Sphere(Vec3(0,0,-1), 0.5);
 	list[1] = new Sphere(Vec3(0, -100.5, -1), 100);
-	Hitable *world = new Hitablelist(list, 2);
+	Hitable *world = new Hitable_list(list, 2);
 
 	for (int j = ny -1; j >= 0; j--)
 	{

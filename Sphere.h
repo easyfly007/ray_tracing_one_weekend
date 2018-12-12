@@ -11,7 +11,7 @@ public:
 	float radius;
 };
 
-bool Sphere::hit(const Ray &r, float t_min, float t_max, hit_record& rec)
+bool Sphere::hit(const Ray &r, float t_min, float t_max, hit_record& rec) const
 {
 	Vec3 oc = r.origin() - center;
 	float a = dot(r.direction(), r.direction());
