@@ -2,6 +2,7 @@
 #define _HITABLELIST_H__
 
 #include "Hitable.h"
+
 class Hitable_list: public Hitable{
 public:
 	Hitable_list(){}
