@@ -20,7 +20,7 @@ Vec3 color(const Ray & r, Hitable *world)
 {
     hit_record rec;
 
-    if (world->hit(r, 0.0, MAXFLOAT, rec))
+    if (world->hit(r, 0.001, MAXFLOAT, rec))
     {
         Vec3 target = rec.p + rec.normal + random_in_unit_sphere();
         return 0.5 * color (Ray(rec.p, target- rec.p), world);
